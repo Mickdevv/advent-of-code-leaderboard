@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block content %}
+<div class="row justify-content-center">
+    <div class="col col-sm-4">
+        <h1>Login</h1>
+        <form method="post">
+            {% csrf_token %}
+            {{ form | crispy }}
+            <button type="submit" class="btn btn-success">login</button>
+            <p>
+                Don't have an account yet ? Register <a href="/register">here</a>
+            </p>
+        </form>
+    </div>
+</div>
+{% endblock %}
