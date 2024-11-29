@@ -3,14 +3,31 @@ from .forms import UserSubmissionForm
 from .models import Submission
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from django.contrib.auth.models import User
+from main.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 
+def calculateScores():
+    submissions = Submission.objects.all().filter(approved=True).order_by('createdAt')
+    users = User.objects.all().filter(is_staff=False)
+    sCounts = {}
+    for s in submissions:
+        key = f'{s.day}{s.part}'
+        sUser = s.user
+        if key not in sCounts:
+            sCounts[key] = 1
+            sUser.score += 3
+        else:
+            if sCounts[key] == 1:
+                sUser.score += 1
+            sUser.score += 1
+            
+        sUser.save()
+        
+    return users, submissions
 
 @login_required(login_url='/login')
 def leaderboard(request):
-    submissions = Submission.objects.all().filter(approved=True)
-    users = User.objects.all().filter(is_staff=False)
+    users, submissions = calculateScores()
     return render(request, 'leaderboard.html', {'submissions': submissions, 'users': users})
 
 @login_required(login_url='/login')
@@ -36,7 +53,8 @@ def register(request):
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
-            form.save()
+            user = form.save()
+            user.save()
             return redirect('login')  # Redirect to the login page after successful registration
     else:
         form = UserCreationForm()

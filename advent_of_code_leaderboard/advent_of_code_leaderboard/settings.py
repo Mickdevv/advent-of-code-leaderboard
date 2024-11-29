@@ -134,3 +134,5 @@ CRISPY_TEMPLATE_PACK = 'bootstrap5'
 
 LOGIN_REDIRECT_URL = "/"
 LOGOUT_REDIRECT_URL = '/login'
+
+AUTH_USER_MODEL = 'main.User'

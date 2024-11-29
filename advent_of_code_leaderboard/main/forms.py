@@ -1,5 +1,6 @@
 from django import forms
-from .models import Submission
+from .models import Submission, User
+from django.contrib.auth.forms import UserCreationForm
 
 class UserSubmissionForm(forms.ModelForm):
     class Meta:
@@ -9,3 +10,4 @@ class UserSubmissionForm(forms.ModelForm):
             'day': forms.Select(attrs={'class': 'form-control'}),
             'part': forms.Select(attrs={'class': 'form-control'}),
         }
+    
