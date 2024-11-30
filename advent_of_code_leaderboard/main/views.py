@@ -19,7 +19,6 @@ def calculateScores():
         
     for s in submissions:
         key = f'{s.day}-{s.part}'
-        key = f'{s.day}-{s.part}'
         sUser = s.user
         profile = getattr(sUser, 'profile', None)   
         profile.score = 0         
