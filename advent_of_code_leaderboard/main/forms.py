@@ -1,5 +1,5 @@
 from django import forms
-from .models import Submission, User
+from .models import Submission
 from django.contrib.auth.forms import UserCreationForm
 
 class UserSubmissionForm(forms.ModelForm):

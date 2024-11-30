@@ -3,7 +3,7 @@ from .forms import UserSubmissionForm
 from .models import Submission, UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from main.models import User
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 from datetime import datetime
 
@@ -19,7 +19,10 @@ def calculateScores():
         
     for s in submissions:
         key = f'{s.day}-{s.part}'
+        key = f'{s.day}-{s.part}'
         sUser = s.user
+        profile = getattr(sUser, 'profile', None)   
+        profile.score = 0         
         if key not in sCounts:
             if s.day not in submissionWeekends:
                 if s.part == 1:
@@ -42,7 +45,8 @@ def calculateScores():
             elif s.part == 2:
                 sUser.score += 1
             
-        sUser.save()
+        profile.save()
+    print(sCounts)    
         
     return users, submissions
 
