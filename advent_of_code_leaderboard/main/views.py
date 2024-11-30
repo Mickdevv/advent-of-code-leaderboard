@@ -1,27 +1,32 @@
 from django.shortcuts import render, redirect
 from .forms import UserSubmissionForm
-from .models import Submission
+from .models import Submission, UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
-from main.models import User
+from django.contrib.auth.models import User
 from django.contrib.auth.forms import PasswordChangeForm
 
 def calculateScores():
     submissions = Submission.objects.all().filter(approved=True).order_by('createdAt')
-    users = User.objects.all().filter(is_staff=False)
+    users = User.objects.all().filter(is_staff=False)    
+
     sCounts = {}
     for s in submissions:
-        key = f'{s.day}{s.part}'
+        key = f'{s.day}-{s.part}'
         sUser = s.user
+        profile = getattr(sUser, 'profile', None)   
+        profile.score = 0         
         if key not in sCounts:
             sCounts[key] = 1
-            sUser.score += 3
+            profile.score += 3
         else:
             if sCounts[key] == 1:
-                sUser.score += 1
-            sUser.score += 1
+                profile.score += 1
+            profile.score += 1
+            sCounts[key] += 1
             
-        sUser.save()
+        profile.save()
+    print(sCounts)    
         
     return users, submissions
 
