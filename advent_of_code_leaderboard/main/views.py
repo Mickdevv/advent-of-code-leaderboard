@@ -1,25 +1,46 @@
 from django.shortcuts import render, redirect
 from .forms import UserSubmissionForm
-from .models import Submission
+from .models import Submission, UserProfile
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 from main.models import User
 from django.contrib.auth.forms import PasswordChangeForm
+from datetime import datetime
 
 def calculateScores():
+    submissionWeekends = ['Day 1', 'Day 7', 'Day 8', 'Day 14', 'Day 15', 'Day 21', 'Day 22', 'Day 25']
     submissions = Submission.objects.all().filter(approved=True).order_by('createdAt')
     users = User.objects.all().filter(is_staff=False)
+    profiles = UserProfile.objects.all()
     sCounts = {}
+    for p in profiles:
+        p.score = 0
+        p.save()
+        
     for s in submissions:
-        key = f'{s.day}{s.part}'
+        key = f'{s.day}-{s.part}'
         sUser = s.user
         if key not in sCounts:
+            if s.day not in submissionWeekends:
+                if s.part == 1:
+                    sUser.score += 3
+                elif s.part == 2:
+                    sUser.score += 4
+            else:
+                if s.part == 1:
+                    sUser.score += 1
+                elif s.part == 2:
+                    sUser.score += 2
+                
             sCounts[key] = 1
-            sUser.score += 3
         else:
-            if sCounts[key] == 1:
+            if sCounts[key] == 1 and s.day not in submissionWeekends:
                 sUser.score += 1
-            sUser.score += 1
+
+            if s.part == 1:
+                sUser.score += 2
+            elif s.part == 2:
+                sUser.score += 1
             
         sUser.save()
         
