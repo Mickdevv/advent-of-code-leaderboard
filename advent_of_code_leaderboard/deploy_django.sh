@@ -125,7 +125,7 @@ sudo systemctl start gunicorn
 sudo systemctl enable gunicorn
 
 # Configure Nginx
-sudo rm /etc/nginx/sites-enabled/default
+# sudo rm /etc/nginx/sites-enabled/default
 
 cat <<EOF | sudo tee $NGINX_CONFIG
 server {
