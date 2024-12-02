@@ -17,12 +17,11 @@ def calculateScores():
         p.score = 0
         p.save()
         
-    for s in submissions.filter(approved=True):
+    for s in submissions.filter(approved=True).reverse():
         key = f'{s.day}-{s.part}'
         sUser = s.user
         profile = getattr(sUser, 'profile', None)  
         
-        print(sCounts, key, submissionWeekends, s.day, s.day in submissionWeekends) 
         if key not in sCounts:
             if s.day not in submissionWeekends:
                 if s.part == 1:
