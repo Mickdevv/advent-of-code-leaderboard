@@ -21,3 +21,5 @@ class Submission(models.Model):
     part = models.IntegerField(choices=PART_CHOICES)
     code = models.FileField(upload_to='uploads/text_files/')
     
+    def __str__(self):
+        return f"{self.user.username} | Approved: {self.approved} | Day {self.day} | Part {self.part}"
