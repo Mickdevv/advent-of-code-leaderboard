@@ -64,9 +64,9 @@ pip install -r ../requirements.txt
 echo "Setting URL parameter in .env file..."
 if [ -z "$DOMAIN_NAME" ]; then
     PUBLIC_IP=$(curl -s http://checkip.amazonaws.com)
-    echo "URL=http://$PUBLIC_IP/" >> $ENV_FILE
+    echo "URL=http://$PUBLIC_IP" >> $ENV_FILE
 else
-    echo "URL=https://$DOMAIN_NAME/" >> $ENV_FILE
+    echo "URL=https://$DOMAIN_NAME" >> $ENV_FILE
 fi
 
 # Collect static files
