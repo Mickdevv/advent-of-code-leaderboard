@@ -10,7 +10,7 @@ from datetime import datetime
 def calculateScores():
     submissionWeekends = ['Day 1', 'Day 7', 'Day 8', 'Day 14', 'Day 15', 'Day 21', 'Day 22', 'Day 25']
     submissions = Submission.objects.all().filter(approved=True).order_by('createdAt')
-    users = User.objects.all().filter(is_staff=False)
+    users = User.objects.all()
     profiles = UserProfile.objects.all()
     sCounts = {}
     for p in profiles:
