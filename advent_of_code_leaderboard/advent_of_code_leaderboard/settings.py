@@ -142,3 +142,6 @@ if os.getenv('URL'):
     CSRF_TRUSTED_ORIGINS = ['http://localhost', os.getenv('URL')]
 else:
     CSRF_TRUSTED_ORIGINS = ['http://localhost']
+    
+TIME_ZONE = 'Europe/Paris'  # Set default timezone to Paris
+USE_TZ = True  # Enable timezone support
