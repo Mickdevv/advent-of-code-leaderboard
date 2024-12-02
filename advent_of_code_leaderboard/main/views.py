@@ -25,37 +25,39 @@ def calculateScores():
         
         print(s.user.username, profile.score, s.createdAt, s.day, s.part)
         
-        if key not in sCounts:
-            if s.day not in submissionWeekends:
-                if s.part == 1:
-                    print("First for part 1")
-                    profile.score += 3
-                elif s.part == 2:
-                    print("First for part 2")
-                    profile.score += 4
-            else:
-                if s.part == 1:
-                    print("Weekend part 1")
-                    profile.score += 1
-                elif s.part == 2:
-                    print("Weekend part 2")
-                    profile.score += 2
-                
-            sCounts[key] = 1
-        else:
-            if sCounts[key] == 1 and s.day not in submissionWeekends:
-                profile.score += 1
-                print("Second non weekend")
-
-            if s.part == 1:
-                profile.score += 1
-            elif s.part == 2:
+        if s.day not in submissionWeekends:
+            if key not in sCounts:
+                print("First for ", key)
+                sCounts[key] = 1
                 profile.score += 2
-            print("past 2nd")
+            elif sCounts[key] == 1:
+                print("Second for ", key)
+                sCounts[key] += 1
+                profile.score += 1
+                
+            if s.part == 2:
+                keyP1 = f'{s.day}-{1}'
+                if keyP1 not in sCounts:
+                    print("First for ", keyP1)
+                    sCounts[keyP1] = 1
+                    profile.score += 2
+                elif sCounts[keyP1] == 1:
+                    print("Second for ", keyP1)
+                    sCounts[keyP1] += 1
+                    profile.score += 1
+                    
+        
+        profile.score += s.part
+        if s.part == 2 and len(submissions.filter(user=sUser).filter(day=s.day).filter(part=1)) == 0:
+            print(sUser, submissions.filter(user=sUser).filter(day=s.day).filter(part=1))
+            profile.score += 1
+            
+        
         print(sUser.username, profile.score)
         print()
             
         profile.save()
+        
     users = sorted(users, key=lambda user: user.profile.score, reverse=True)
     return users, submissions
 
