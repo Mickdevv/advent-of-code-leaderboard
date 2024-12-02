@@ -50,8 +50,8 @@ pip install psycopg psycopg2-binary django gunicorn python-dotenv
 # install all requirements. 
 pip install -r ../requirements.txt
 
-# Update requirements.txt file
-pip freeze > ../requirements.txt
+# # Update requirements.txt file
+# pip freeze > ../requirements.txt
 
 # Configure Django for production
 # if [ -n "$DOMAIN_NAME" ]; then
