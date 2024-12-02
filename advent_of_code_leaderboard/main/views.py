@@ -21,28 +21,27 @@ def calculateScores():
         key = f'{s.day}-{s.part}'
         sUser = s.user
         profile = getattr(sUser, 'profile', None)   
-        profile.score = 0         
         if key not in sCounts:
             if s.day not in submissionWeekends:
                 if s.part == 1:
-                    sUser.score += 3
+                    profile.score += 3
                 elif s.part == 2:
-                    sUser.score += 4
+                    profile.score += 4
             else:
                 if s.part == 1:
-                    sUser.score += 1
+                    profile.score += 1
                 elif s.part == 2:
-                    sUser.score += 2
+                    profile.score += 2
                 
             sCounts[key] = 1
         else:
             if sCounts[key] == 1 and s.day not in submissionWeekends:
-                sUser.score += 1
+                profile.score += 1
 
             if s.part == 1:
-                sUser.score += 2
+                profile.score += 2
             elif s.part == 2:
-                sUser.score += 1
+                profile.score += 1
             
         profile.save()
     print(sCounts)    

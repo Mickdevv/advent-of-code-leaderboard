@@ -138,4 +138,7 @@ LOGOUT_REDIRECT_URL = '/login'
 # AUTH_USER_MODEL = 'main.User'
 CORS_ALLOW_ALL_ORIGINS = os.getenv('CORS_ALLOW_ALL_ORIGINS') == "True"
 
-CSRF_TRUSTED_ORIGINS = [os.getenv('URL')]
+if os.getenv('URL'):
+    CSRF_TRUSTED_ORIGINS = ['http://localhost', os.getenv('URL')]
+else:
+    CSRF_TRUSTED_ORIGINS = ['http://localhost']
