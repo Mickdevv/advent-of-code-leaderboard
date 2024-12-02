@@ -71,7 +71,7 @@ fi
 
 # Collect static files
 python $PROJECT_DIR/manage.py collectstatic --noinput
-
+python $PROJECT_DIR/manage.py createsuperuser
 # Install PostgreSQL (optional, comment out if not needed)
 # sudo apt install -y postgresql postgresql-contrib libpq-dev
 # sudo -u postgres psql <<EOF
