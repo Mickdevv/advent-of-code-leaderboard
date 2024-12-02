@@ -4,6 +4,7 @@
 ENV_FILE='../.env'
 export $(grep -v '^#' $ENV_FILE | xargs)
 
+
 # Variables
 PROJECT_DIR=$(pwd)
 SERVER_IP=$(curl -s http://checkip.amazonaws.com)  # Automatically fetch the server's public IP
@@ -12,6 +13,14 @@ VENV_DIR="$PROJECT_DIR/../env"
 GUNICORN_SERVICE="/etc/systemd/system/gunicorn.service"
 NGINX_CONFIG="/etc/nginx/sites-available/$PROJECT_NAME"
 NGINX_ENABLED="/etc/nginx/sites-enabled/$PROJECT_NAME"
+
+echo $SERVER_IP 
+echo $VENV_DIR 
+echo $NGINX_CONFIG 
+echo $NGINX_ENABLED 
+echo $PROJECT_NAME 
+echo $PROJECT_DIR 
+
 
 # Update the package list and upgrade all packages
 echo "Updating the package list and upgrading all packages..."
