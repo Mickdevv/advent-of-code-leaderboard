@@ -22,30 +22,39 @@ def calculateScores():
         sUser = s.user
         profile = getattr(sUser, 'profile', None)  
         
+        print(s.user.username, profile.score, s.createdAt, s.day, s.part)
+        
         if key not in sCounts:
             if s.day not in submissionWeekends:
                 if s.part == 1:
+                    print("First for part 1")
                     profile.score += 3
                 elif s.part == 2:
+                    print("First for part 2")
                     profile.score += 4
             else:
                 if s.part == 1:
+                    print("Weekend part 1")
                     profile.score += 1
                 elif s.part == 2:
+                    print("Weekend part 2")
                     profile.score += 2
                 
             sCounts[key] = 1
         else:
             if sCounts[key] == 1 and s.day not in submissionWeekends:
                 profile.score += 1
+                print("Second non weekend")
 
             if s.part == 1:
-                profile.score += 2
-            elif s.part == 2:
                 profile.score += 1
+            elif s.part == 2:
+                profile.score += 2
+            print("past 2nd")
+        print(sUser.username, profile.score)
+        print()
             
         profile.save()
-    print(sCounts)    
     users = sorted(users, key=lambda user: user.profile.score, reverse=True)
     return users, submissions
 
