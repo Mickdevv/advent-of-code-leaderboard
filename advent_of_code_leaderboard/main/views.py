@@ -8,8 +8,8 @@ from django.contrib.auth.forms import PasswordChangeForm
 from datetime import datetime
 
 def calculateScores():
-    submissionWeekends = ['Day 1', 'Day 7', 'Day 8', 'Day 14', 'Day 15', 'Day 21', 'Day 22', 'Day 25']
-    submissions = Submission.objects.all().filter(approved=True).order_by('createdAt')
+    submissionWeekends = [1, 7, 8, 14, 15, 21, 22, 25]
+    submissions = Submission.objects.all().filter(approved=True).order_by('-createdAt')
     users = User.objects.all()
     profiles = UserProfile.objects.all()
     sCounts = {}
@@ -20,7 +20,9 @@ def calculateScores():
     for s in submissions:
         key = f'{s.day}-{s.part}'
         sUser = s.user
-        profile = getattr(sUser, 'profile', None)   
+        profile = getattr(sUser, 'profile', None)  
+        
+        print(sCounts, key, submissionWeekends, s.day, s.day in submissionWeekends) 
         if key not in sCounts:
             if s.day not in submissionWeekends:
                 if s.part == 1:
@@ -45,7 +47,7 @@ def calculateScores():
             
         profile.save()
     print(sCounts)    
-        
+    users = sorted(users, key=lambda user: user.profile.score, reverse=True)
     return users, submissions
 
 @login_required(login_url='/login')
