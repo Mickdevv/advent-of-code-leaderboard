@@ -53,6 +53,8 @@ def calculateScores():
         if s.part == 2 and len(submissions.filter(user=sUser).filter(day=s.day).filter(part=1)) == 0:
             print(sUser, submissions.filter(user=sUser).filter(day=s.day).filter(part=1))
             profile.score += 1
+            if s.createdAt.day == s.day:
+                profile.score+=1
             
         
         print(sUser.username, profile.score)
