@@ -68,7 +68,13 @@ def calculateScores():
 @login_required(login_url='/login')
 def leaderboard(request):
     users, submissions = calculateScores()
-    return render(request, 'leaderboard.html', {'submissions': submissions, 'users': users})
+    completedSubmissions = []
+    for sub in submissions:
+        if sub.approved and sub.user == request.user:
+            for allSubs in submissions:
+                if allSubs.day == sub.day and allSubs.part == sub.part:
+                    completedSubmissions.append(allSubs)
+    return render(request, 'leaderboard.html', {'submissions': submissions, 'users': users, 'completedSubmissions': completedSubmissions})
 
 @login_required(login_url='/login')
 def submission(request):

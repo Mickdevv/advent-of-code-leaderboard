@@ -1,35 +1,43 @@
 {% extends 'base.html' %}
 {% block content %}
-<h2>Leaderboard</h2>
-<table class="table table-striped mb-5 p-0">
-    <tr>
-        <th>username</th>
-        <th>score</th>
-    </tr>
-    {% for user in users %}
-    <tr>
-        <td>{{ user.username }}</td>
-        <td>{{ user.profile.score }}</td>
-    </tr>
-    {% endfor %}
-</table>
-<h2>Submissions</h2>
-<table class="table table-striped mb-5 p-0">
-    <tr>
-        <th>username</th>
-        <th>day</th>
-        <th>part</th>
-        <th>submitted</th>
-        <th>approved</th>
-    </tr>
-    {% for sub in submissions %}
-    <tr>
-        <td>{{ sub.user.username }}</td>
-        <td>{{ sub.day }}</td>
-        <td>{{ sub.part }}</td>
-        <td>{{ sub.createdAt }}</td>
-        <td>{{ sub.approved }}</td>
-    </tr>
-    {% endfor %}
-</table>
+    <h2>Leaderboard</h2>
+    <table class="table table-striped mb-5 p-0">
+        <tr>
+            <th>username</th>
+            <th>score</th>
+        </tr>
+        {% for user in users %}
+            <tr>
+                <td>{{ user.username }}</td>
+                <td>{{ user.profile.score }}</td>
+            </tr>
+        {% endfor %}
+    </table>
+    <h2>Submissions</h2>
+    <table class="table table-striped mb-5 p-0">
+        <tr>
+            <th>username</th>
+            <th>day</th>
+            <th>part</th>
+            <th>submitted</th>
+            <th>approved</th>
+            <th>code</th>
+        </tr>
+        {% for sub in submissions %}
+            <tr>
+                <td>{{ sub.user.username }}</td>
+                <td>{{ sub.day }}</td>
+                <td>{{ sub.part }}</td>
+                <td>{{ sub.createdAt }}</td>
+                <td>{{ sub.approved }}</td>
+                <td>
+                    {% if sub in completedSubmissions %}
+                        <a href="/media/{{ sub.code }}" download>Download</a>
+                    {% else %}
+                        ---
+                    {% endif %}
+                </td>
+            </tr>
+        {% endfor %}
+    </table>
 {% endblock %}
