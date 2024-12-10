@@ -1,9 +1,6 @@
 env
 *.pyc
 uploads
-env
-*.pyc
-uploads
 db.sqlite3
 __pycache__
 .env
